@@ -1,0 +1,9 @@
+{
+    "name": "Squidly Piano Game",
+    "title": "Piano Game",
+    "subtitle": "Interactive Piano",
+    "version": "1.0.0",
+    "description": "Interactive piano game for Squidly",
+    "author": "Antigravity",
+    "icon": "https://cursor-splash.squidly.com.au/cursor-splash.png"
+}
