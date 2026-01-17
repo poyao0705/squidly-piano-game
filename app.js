@@ -4,9 +4,83 @@
  * Manages interactive piano game functionality.
  */
 
+import PianoTrials from "./Piano_Trials/PianoTrials.js";
+
 const PIANO_TYPE_METHODS = {
     "piano-game/default": "_switchToDefault",
 };
+
+const GAME_PREFIX = "piano-game";
+const GAME_ROOT_ID = "piano-game-root";
+
+class FirebaseAppAdapter {
+    constructor(prefix) {
+        this.prefix = prefix;
+        this.hasHost = window.parent && window.parent !== window;
+        this.store = new Map();
+        this.callbacks = new Map();
+    }
+
+    set(key, value) {
+        const path = `${this.prefix}/${key}`;
+        if (this.hasHost && typeof firebaseSet === "function") {
+            firebaseSet(path, value);
+            return;
+        }
+        this.store.set(path, value);
+        if (this.callbacks.has(path)) {
+            this.callbacks.get(path).forEach((cb) => cb(value));
+        }
+    }
+
+    onValue(key, callback) {
+        const path = `${this.prefix}/${key}`;
+        if (this.hasHost && typeof firebaseOnValue === "function") {
+            firebaseOnValue(path, callback);
+            return;
+        }
+        if (!this.callbacks.has(path)) {
+            this.callbacks.set(path, new Set());
+        }
+        this.callbacks.get(path).add(callback);
+        if (this.store.has(path)) {
+            callback(this.store.get(path));
+        } else {
+            callback(null);
+        }
+    }
+}
+
+function ensureRoot() {
+    let root = document.getElementById(GAME_ROOT_ID);
+    if (!root) {
+        root = document.createElement("div");
+        root.id = GAME_ROOT_ID;
+        root.style.position = "absolute";
+        root.style.inset = "0";
+        root.style.width = "100%";
+        root.style.height = "100%";
+        document.body.appendChild(root);
+    }
+    return root;
+}
+
+function createPianoTrials() {
+    const app = new FirebaseAppAdapter(GAME_PREFIX);
+    const editable = true;
+    const piano = new PianoTrials(editable, app);
+    piano.styles = {
+        position: "absolute",
+        inset: "0",
+        width: "100%",
+        height: "100%",
+    };
+    piano.destroy = () => {
+        piano.remove();
+    };
+    app.set("state", "landing");
+    return piano;
+}
 
 // Initialize default piano type
 firebaseSet("piano-game/currentType", "piano-game/default");
@@ -38,8 +112,12 @@ window.pianoGame = {
         this.switching = true;
 
         this.destroyCurrentGame().then(() => {
-            // TODO: Initialize piano game here
-            this.currentGame = null;
+            const root = ensureRoot();
+            root.innerHTML = "";
+
+            const game = createPianoTrials();
+            root.appendChild(game);
+            this.currentGame = game;
 
             this.currentType = "piano-game/default";
             document.body.setAttribute("app-type", "piano-game/default");
@@ -56,12 +134,19 @@ window.pianoGame = {
     },
 
     updateInput: function (data) {
-        // TODO: Handle input updates for piano game
-        if (!this.currentGame) return;
+        if (!this.currentGame || !data) return;
+        if (typeof data.x === "number" && typeof data.y === "number") {
+            this.currentGame.eyePosition = data;
+        }
     },
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+    const instruction = document.getElementById("instruction-text");
+    if (instruction) {
+        instruction.style.display = "none";
+    }
+
     // Initialize with default piano game
     window.pianoGame._switchToDefault();
 
@@ -78,7 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Multi-user input updates
-    // TODO: Add cursor/input listener when needed
     // addCursorListener((data) => {
     //   window.pianoGame.updateInput(data);
     // });
@@ -97,4 +181,3 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 });
-

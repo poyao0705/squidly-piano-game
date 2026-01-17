@@ -1,0 +1,205 @@
+/* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+/* Apply styles to all elements */
+* {
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
+  font-family: 'Poppins', sans-serif; /* Apply Poppins font from Google Fonts */
+}
+
+/* Style the body of the document */
+body {
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Vertically center items */
+  justify-content: center; /* Horizontally center items */
+  min-height: 100vh; /* Ensure body takes at least full viewport height */
+  background: #E3F2FD; /* Light blue background color */
+}
+
+/* Style the main container */
+.wrapper {
+  padding: 35px 40px; /* Add padding around the container */
+  border-radius: 20px; /* Round the corners */
+  background: #141414; /* Dark background color */
+}
+
+/* Style the header section within the wrapper */
+.wrapper header {
+  display: flex; /* Use flexbox for layout */
+  color: #B2B2B2; /* Light gray text color */
+  align-items: center; /* Vertically align items */
+  justify-content: space-between; /* Space out header elements */
+}
+
+/* Style the header title */
+header h2 {
+  font-size: 1.6rem; /* Larger font size for the title */
+}
+
+/* Style columns in the header section */
+header .column {
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Vertically align items */
+}
+
+/* Style text inside header columns */
+header span {
+  font-weight: 500; /* Semi-bold font weight */
+  margin-right: 15px; /* Space between the span and the input */
+  font-size: 1.19rem; /* Slightly larger font size */
+}
+
+/* Style inputs in the header */
+header input {
+  outline: none; /* Remove default outline */
+  border-radius: 30px; /* Round the corners of the input elements */
+}
+
+/* Style the volume slider input */
+.volume-slider input {
+  accent-color: #fff; /* Set the accent color of the slider to white */
+}
+
+/* Style the checkbox for showing/hiding keys */
+.keys-checkbox input {
+  height: 30px; /* Height of the checkbox */
+  width: 60px; /* Width of the checkbox */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  appearance: none; /* Remove default appearance */
+  position: relative; /* Position relative for positioning ::before pseudo-element */
+  background: #4B4B4B; /* Dark gray background color */
+}
+
+/* Style the pseudo-element for the checkbox slider */
+.keys-checkbox input::before {
+  content: ""; /* Empty content for the pseudo-element */
+  position: absolute; /* Absolute positioning */
+  top: 50%; /* Center vertically */
+  left: 5px; /* Position from the left */
+  width: 20px; /* Width of the pseudo-element */
+  height: 20px; /* Height of the pseudo-element */
+  border-radius: 50%; /* Round the corners to make it a circle */
+  background: #8c8c8c; /* Light gray background color */
+  transform: translateY(-50%); /* Center vertically */
+  transition: all 0.3s ease; /* Smooth transition for changes */
+}
+
+/* Style the pseudo-element when the checkbox is checked */
+.keys-checkbox input:checked::before {
+  left: 35px; /* Move slider to the right */
+  background: #fff; /* Change background color to white */
+}
+
+/* Style the piano keys container */
+.piano-keys {
+  display: flex; /* Use flexbox for layout */
+  list-style: none; /* Remove default list styling */
+  margin-top: 40px; /* Space above the keys */
+}
+
+/* Style individual keys */
+.piano-keys .key {
+  cursor: pointer; /* Change cursor to pointer on hover */
+  user-select: none; /* Prevent text selection */
+  position: relative; /* Position relative for positioning child elements */
+  text-transform: uppercase; /* Transform text to uppercase */
+}
+
+/* Style black keys */
+.piano-keys .black {
+  z-index: 2; /* Ensure black keys appear above white keys */
+  width: 44px; /* Width of the black key */
+  height: 140px; /* Height of the black key */
+  margin: 0 -22px; /* Negative margin to overlap with white keys */
+  border-radius: 0 0 5px 5px; /* Round the bottom corners */
+  background: linear-gradient(#333, #000); /* Dark gradient background */
+}
+
+/* Style black keys when active */
+.piano-keys .black.active {
+  box-shadow: inset -5px -10px 10px rgba(255,255,255,0.1); /* Inner shadow effect */
+  background: linear-gradient(to bottom, #000, #434343); /* Darker gradient background */
+}
+
+/* Style white keys */
+.piano-keys .white {
+  height: 230px; /* Height of the white key */
+  width: 70px; /* Width of the white key */
+  border-radius: 8px; /* Round the corners */
+  border: 1px solid #000; /* Black border around the key */
+  background: linear-gradient(#fff 96%, #eee 4%); /* Light gradient background */
+}
+
+/* Style white keys when active */
+.piano-keys .white.active {
+  box-shadow: inset -5px 5px 20px rgba(0,0,0,0.2); /* Inner shadow effect */
+  background: linear-gradient(to bottom, #fff 0%, #eee 100%); /* Lighter gradient background */
+}
+
+/* Style text inside the keys */
+.piano-keys .key span {
+  position: absolute; /* Absolute positioning */
+  bottom: 20px; /* Position at the bottom */
+  width: 100%; /* Full width of the key */
+  color: #A2A2A2; /* Light gray text color */
+  font-size: 1.13rem; /* Font size for the key labels */
+  text-align: center; /* Center the text horizontally */
+}
+
+/* Hide the text in keys when the key is hidden */
+.piano-keys .key.hide span {
+  display: none; /* Hide the text */
+}
+
+/* Style text on black keys */
+.piano-keys .black span {
+  bottom: 13px; /* Position closer to the bottom */
+  color: #888888; /* Gray text color */
+}
+
+/* Responsive design for screens with a maximum width of 815px */
+@media screen and (max-width: 815px) {
+  .wrapper {
+    padding: 25px; /* Reduce padding */
+  }
+  header {
+    flex-direction: column; /* Stack header elements vertically */
+  }
+  header :where(h2, .column) {
+    margin-bottom: 13px; /* Space between header elements */
+  }
+  .volume-slider input {
+    max-width: 100px; /* Limit the width of the volume slider */
+  }
+  .piano-keys {
+    margin-top: 20px; /* Reduce space above the keys */
+  }
+  .piano-keys .key:where(:nth-child(9), :nth-child(10)) {
+    display: none; /* Hide some keys on smaller screens */
+  }
+  .piano-keys .black {
+    height: 100px; /* Reduce height of black keys */
+    width: 40px; /* Reduce width of black keys */
+    margin: 0 -20px; /* Adjust margin for reduced width */
+  }
+  .piano-keys .white {
+    height: 180px; /* Reduce height of white keys */
+    width: 60px; /* Reduce width of white keys */
+  }
+}
+
+/* Responsive design for screens with a maximum width of 615px */
+@media screen and (max-width: 615px) {
+  .piano-keys .key:nth-child(13),
+  .piano-keys .key:nth-child(14),
+  .piano-keys .key:nth-child(15),
+  .piano-keys .key:nth-child(16),
+  .piano-keys .key :nth-child(17) {
+    display: none; /* Hide more keys on very small screens */
+  }
+  .piano-keys .white {
+    width: 50px; /* Further reduce width of white keys */
+  }
+}
