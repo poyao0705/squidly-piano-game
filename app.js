@@ -168,16 +168,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // });
 
     // Grid icon for switching
-    setIcon(
-        1,
-        0,
-        {
-            symbol: "music",
-            displayValue: "Piano Mode",
-            type: "action",
-        },
-        () => {
-            console.log("Piano mode active");
-        }
-    );
+    // setIcon(
+    //     1,
+    //     0,
+    //     {
+    //         symbol: "music",
+    //         displayValue: "Piano Mode",
+    //         type: "action",
+    //     },
+    //     () => {
+    //         console.log("Piano mode active");
+    //     }
+    // );
 });
