@@ -37,13 +37,9 @@ class PianoTrials extends SvgPlus {
       id: "pianoTrials",
     };
 
-    this.State = { page: "landing" };
-
     this.shadow = this.attachShadow({ mode: "open" });
 
     this.setupStyles();
-
-    this.State = { page: "landing" };
 
     // this.currentInstrument = "piano";
     // this.currentVolume = 0.5;
@@ -243,9 +239,13 @@ class PianoTrials extends SvgPlus {
     this.app.set("volume", 0.5);
 
     this.app.onValue("state", (value) => {
-      if (!value) this.State = { page: "landing" };
+      if (!value) this.State = { page: "play" };
       else this.State = { page: value };
     });
+    
+    // Initialize to play state after all pages are created
+    // This ensures playPage exists when play() is called
+    this.State = { page: "play" };
   }
 
   setupStyles() {

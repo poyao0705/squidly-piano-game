@@ -78,7 +78,7 @@ function createPianoTrials() {
     piano.destroy = () => {
         piano.remove();
     };
-    app.set("state", "landing");
+    app.set("state", "play");
     return piano;
 }
 
@@ -180,4 +180,40 @@ document.addEventListener("DOMContentLoaded", () => {
     //         console.log("Piano mode active");
     //     }
     // );
+    setIcon(
+        0,
+        1,
+        {
+            symbol: "",
+            displayValue: "Piano",
+            type: "action",
+        },
+    );
+    setIcon(
+        0,
+        2,
+        {
+            symbol: "",
+            displayValue: "Guitar",
+            type: "action",
+        },
+    );
+    setIcon(
+        0,
+        3,
+        {
+            symbol: "",
+            displayValue: "Violin",
+            type: "action",
+        },
+    );
+    setIcon(
+        0,
+        4,
+        {
+            symbol: "",
+            displayValue: "Trumpet",
+            type: "action",
+        },
+    )
 });
